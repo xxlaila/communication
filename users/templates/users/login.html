@@ -1,0 +1,42 @@
+{% load static %}
+
+{% block custom_head_css %}
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/base/favicon.png' %}">
+    <link  rel="stylesheet" href="{% static 'css/base/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="login-form-bg h-100">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-xl-6">
+                <div class="form-input-content">
+                    <div class="card login-form mb-0">
+                        <div class="card-body pt-5">
+                            <a class="text-center" href="/"> <h4>通讯录管理系统</h4></a>
+                            <form class="mt-5 mb-5 login-input">
+                                <div class="form-group">
+                                    <input type="username" class="form-control" placeholder="username">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password">
+                                </div>
+                                <button class="btn login-form__btn submit w-100">Sign In</button>
+                            </form>
+                            <p class="mt-5 login-form__footer">没有账号？ <a href="{% url 'users:register' %}" class="text-primary">立即注册</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_foot_js %}
+    <script src="{% static 'js/base/common.min.js' %}"></script>
+    <script src="{% static 'js/base/custom.min.js' %}"></script>
+    <script src="{% static 'js/base/settings.js' %}"></script>
+    <script src="{% static 'js/base/gleek.js' %}"></script>
+    <script src="{% static 'js/base/styleSwitcher.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<div class="header">
+    <div class="header-content clearfix">
+
+        {% include '_left_header.html' %}
+
+        <div class="header-right">
+            <ul class="clearfix">
+                {% include '_right_header.html' %}
+                {% include '_top_header_logout.html' %}
+            </ul>
+        </div>
+    </div>
+</div>

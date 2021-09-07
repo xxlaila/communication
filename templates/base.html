@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include '_head.html' %}
+    <!-- Pignose Calender -->
+    {% include '_head_css.html' %}
+    {% block custom_head_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        {% include '_left_top_icon.html' %}
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        {% include '_top_header.html' %}
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="nk-sidebar">
+            <div class="nk-nav-scroll">
+                {% include '_left_side_bar.html' %}
+            </div>
+        </div>
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="container-fluid mt-3">
+
+              {% block content %}
+                哈哈
+              {% endblock %}
+            </div>
+        </div>
+        {% include '_footer.html' %}
+
+    </div>
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    {% include '_footer_js.html' %}
+    {% block custom_foot_js %}
+    {% endblock %}
+
+</body>
+
+</html>

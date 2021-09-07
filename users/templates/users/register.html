@@ -1,0 +1,62 @@
+{% load static %}
+
+{% block custom_head_css %}
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/base/favicon.png' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link  rel="stylesheet" href="{% static 'css/base/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="login-form-bg h-100">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-xl-6">
+                <div class="form-input-content">
+                    <div class="card login-form mb-0">
+                        <div class="card-body pt-5">
+
+                                <a class="text-center" href="/"> <h4>通讯录管理系统</h4></a>
+
+                            <form class="mt-5 mb-5 login-input">
+                                <div class="form-group">
+                                    <input type="usernmae" class="form-control"  placeholder="usernmae" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control"  placeholder="realname" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="sex" class="form-control"  placeholder="sex" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control"  placeholder="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" class="form-control"  placeholder="mobile" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control"  placeholder="idcard" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password" required>
+                                </div>
+                                <button class="btn login-form__btn submit w-100">Sign in</button>
+                            </form>
+                                <p class="mt-5 login-form__footer">有账号 <a href="{% url 'users:login' %}" class="text-primary">立即登陆 </a> </p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_foot_js %}
+    <script src="{% static 'js/base/common.min.js' %}"></script>
+    <script src="{% static 'js/base/custom.min.js' %}"></script>
+    <script src="{% static 'js/base/settings.js' %}"></script>
+    <script src="{% static 'js/base/gleek.js' %}"></script>
+    <script src="{% static 'js/base/styleSwitcher.js' %}"></script>
+{% endblock %}
