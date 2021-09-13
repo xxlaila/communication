@@ -15,34 +15,40 @@
                 <div class="form-input-content">
                     <div class="card login-form mb-0">
                         <div class="card-body pt-5">
-
-                                <a class="text-center" href="/"> <h4>通讯录管理系统</h4></a>
-
-                            <form class="mt-5 mb-5 login-input">
+                            <a class="text-center" href="/"> <h4>注册通讯录管理系统</h4></a>
+                            <form class="form-register" action="{% url 'users:register' %}" method="post">
+                                {% csrf_token %}
                                 <div class="form-group">
-                                    <input type="usernmae" class="form-control"  placeholder="usernmae" required>
+                                    {{ register_form.username.label }}{{ register_form.username }}
+                                    <span style="color: red" id="username_error">{{ register_form.username.error.0 }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control"  placeholder="realname" required>
+                                    {{ register_form.realname.label }}{{ register_form.realname }}
+                                    <span style="color: red">{{ register_form.realname.error.0 }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="sex" class="form-control"  placeholder="sex" required>
+                                    {{ register_form.sex.label }}{{ register_form.sex }}
+                                    <span style="color: red">{{ register_form.sex.error.0 }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control"  placeholder="email" required>
+                                    {{ register_form.email.label }}{{ register_form.email }}
+                                    <span style="color: red">{{ register_form.email.error.0 }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="tel" class="form-control"  placeholder="mobile" required>
+                                    {{ register_form.mobile.label }}{{ register_form.mobile }}
+                                    <span style="color: red">{{ register_form.mobile.error.0 }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="number" class="form-control"  placeholder="idcard" required>
+                                    {{ register_form.password1.label }}{{ register_form.password1 }}
+                                    <span style="color: red">{{ register_form.password1.error.0 }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password" required>
+                                    {{ register_form.password2.label }}{{ register_form.password2 }}
+                                    <span style="color: red">{{ register_form.password2.error.0 }}</span>
                                 </div>
-                                <button class="btn login-form__btn submit w-100">Sign in</button>
+                                <button type="submit" class="btn login-form__btn submit w-100">注 册</button>
                             </form>
-                                <p class="mt-5 login-form__footer">有账号 <a href="{% url 'users:login' %}" class="text-primary">立即登陆 </a> </p>
+                                <p class="mt-5 login-form__footer">有账号 <a href="{% url 'users:login' %}" class="text-primary" id="loginBtn">立即登陆 </a> </p>
                                 </p>
                             </div>
                         </div>
@@ -59,4 +65,42 @@
     <script src="{% static 'js/base/settings.js' %}"></script>
     <script src="{% static 'js/base/gleek.js' %}"></script>
     <script src="{% static 'js/base/styleSwitcher.js' %}"></script>
+
+    <script>
+        $("#loginBtn").on("click", function () {
+            var username = $("#username").val();
+            var realname = $("#realname").val();
+            var sex = $("#sex").val();
+            var email = $("#email").val();
+            var mobile = $("#mobile").val();
+            var password1 = $("#password1").val();
+            var password2 = $("#password2").val();
+            var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+            $.ajax({
+                url: "{% url 'users:register' %}",
+                type: 'post',
+                dataType: "json",
+                data: {
+                    username: username,
+                    realname: realname,
+                    sex: sex,
+                    email: email,
+                    mobile: mobile,
+                    password1: password1,
+                    password2: password2,
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                success: function (arg) {
+                    console.log(typeof(arg));
+                    var arg = JSON.parse(arg)
+                    console.log(typeof(arg));
+                    if (arg.user){
+                        location.href = '{% url 'users:login' %}'
+                    } else {
+                        $('.error').html(arg.msg).css({'color':'red'})
+                    }
+                },
+            })
+        });
+    </script>
 {% endblock %}

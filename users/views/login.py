@@ -10,17 +10,36 @@ from django.views import View
 from django.shortcuts import (
     render, redirect
 )
-
-
-# def LoginView(request):
+from ..forms.login import *
+from ..models.users import *
+from utils.hashcode import hash_code
 
 class LoginView(View):
 
     def get(self, request):
-        return render(request, "users/login.html")
+        login_form = LoginForm(request.POST)
+        if request.session.get('is_login', None):
+            return redirect('/')
+        return render(request, "users/login.html", {'login_form': login_form})
 
     def post(self, request):
-        pass
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
+            try:
+                user = Users.objects.get(username=username)
+                if user.password == hash_code(password):
+                    request.session['is_login'] = True
+                    request.session['user_id'] = str(user.id)
+                    request.session['username'] = user.username
+                    return render(request, 'index.html')
+            except Exception as e:
+                message = "用户不存在！"
+                return render(request, 'users/login.html', {"message": message})
+
+        login_form = LoginForm
+        return render(request, 'users/login.html', {'login_form': login_form})
 
 
 def logout(request):
@@ -28,11 +47,3 @@ def logout(request):
         return redirect('users:login')
     request.session.flush()
     return redirect('users:login')
-
-
-class register(View):
-    def get(self, request):
-        return render(request, 'users/register.html')
-
-    def post(self, request):
-        pass
