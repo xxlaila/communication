@@ -1,0 +1,47 @@
+{% load static %}
+
+{% block custom_head_css %}
+    <link  rel="stylesheet" href="{% static 'css/base/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="login-form-bg h-100">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100">
+                <div class="col-xl-6">
+                    <div class="form-input-content">
+                        <div class="card login-form mb-0">
+                            <div class="card-body pt-5">
+                                <a class="text-center" href="{% url 'users:forgetpwd' %}"> <h4>忘记密码</h4></a>
+                                <form class="mt-5 mb-3 login-input" action="{% url 'users:forgetpwd' %}" method="post">
+                                    {% if message %}
+                                        <div class="alert alert-warning">{{ message }}</div>
+                                    {% endif %}
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ forget_form.email.label_tag }}
+                                        {{ forget_form.email }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ forget_form.captcha.errors }}
+                                        {{ forget_form.captcha.label_tag }}
+                                        {{ forget_form.captcha }}
+                                    </div>
+                                    <button class="btn login-form__btn submit w-100">提交</button>
+                                    <p class="form-p" style="bottom:40px;">您还可以<a href="{% url 'users:login' %}"> [直接登录]</a></p>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_foot_js %}
+     <script src="{% static 'js/base/common.min.js' %}"></script>
+    <script src="{% static 'js/base/custom.min.js' %}"></script>
+    <script src="{% static 'js/base/settings.js' %}"></script>
+{% endblock %}

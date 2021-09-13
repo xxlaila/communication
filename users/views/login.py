@@ -13,6 +13,8 @@ from django.shortcuts import (
 from ..forms.login import *
 from ..models.users import *
 from utils.hashcode import hash_code
+from ..forms.forgetpwd import *
+from utils.email_send import *
 
 class LoginView(View):
 
@@ -47,3 +49,23 @@ def logout(request):
         return redirect('users:login')
     request.session.flush()
     return redirect('users:login')
+
+class ForgetPwdView(View):
+
+    def get(self, request):
+        forget_form = ForgetForm()
+        return render(request, 'users/forgetpwd.html', {"forget_form": forget_form})
+
+    def post(self, request):
+        forget_form = ForgetForm(request.POST)
+        if forget_form.is_valid():
+            email = forget_form.cleaned_data['email']
+            user_email = Users.objects.filter(email=email)
+            if user_email:
+                send_register_email(email, "forget")
+                return redirect('/login/')
+            else:
+                message = "系统为找到该邮箱，请核对后输入！"
+            # return render(request, 'authapp/login.html', locals())
+        forget_form = ForgetForm()
+        return render(request, 'users/forgetpwd.html', {"forget_form": forget_form})
