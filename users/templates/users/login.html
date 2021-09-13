@@ -14,14 +14,23 @@
                     <div class="card login-form mb-0">
                         <div class="card-body pt-5">
                             <a class="text-center" href="/"> <h4>通讯录管理系统</h4></a>
-                            <form class="mt-5 mb-5 login-input">
+                            <form class="mt-5 mb-5 login-input" action="{% url 'users:login' %}" method="post">
+                                 {% csrf_token %}
                                 <div class="form-group">
-                                    <input type="username" class="form-control" placeholder="username">
+                                    {{ login_form.username.label }}{{ login_form.username }}
+                                    <span style="color: red" id="username_error">{{ login_form.username.error.0 }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password">
+                                    {{ login_form.password.label }}{{ login_form.password }}
+                                    <span style="color: red" id="password_error">{{ login_form.password.error.0 }}</span>
                                 </div>
-                                <button class="btn login-form__btn submit w-100">Sign In</button>
+{#                                <div class="form-group">#}
+{#                                    <input type="username" class="form-control" placeholder="用户名" name="username">#}
+{#                                </div>#}
+{#                                <div class="form-group">#}
+{#                                    <input type="password" class="form-control" placeholder="密码" name="Password">#}
+{#                                </div>#}
+                                <button class="btn login-form__btn submit w-100">登 陆</button>
                             </form>
                             <p class="mt-5 login-form__footer">没有账号？ <a href="{% url 'users:register' %}" class="text-primary">立即注册</a></p>
                         </div>

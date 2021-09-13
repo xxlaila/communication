@@ -25,8 +25,7 @@ class Users(models.Model):
     realname = models.CharField(null=True, blank=True, max_length=128, verbose_name=('姓名'))
     sex = models.CharField(max_length=8, choices=GENDER_CHOICES, default='男', verbose_name=('性别'))
     email = models.EmailField(unique=True, verbose_name=('邮箱'))
-    mobile = models.IntegerField(default=None, blank=True, null=True, verbose_name=('电话'))
-    idcard = models.IntegerField(null=True, blank=True, verbose_name=('身份证'))
+    mobile = models.BigIntegerField(blank=True, null=True, verbose_name=('电话'))
     is_active = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name=('创建日期'))
 
