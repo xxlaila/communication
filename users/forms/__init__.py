@@ -8,3 +8,4 @@
 
 from .register import *
 from .login import *
+from .forgetpwd import *
