@@ -6,3 +6,4 @@ sqlparse==0.4.1
 typing-extensions==3.10.0.2
 django-cors-headers==3.8.0
 django-simple-captcha==0.5.14
+django-smtp-ssl==1.0

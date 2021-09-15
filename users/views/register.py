@@ -12,7 +12,6 @@ from ..forms.register import RegisterForm
 from django.shortcuts import (
     render, redirect
 )
-from ..models.users import *
 from utils.email_send import send_register_email
 
 def RegisterView(request):
@@ -71,7 +70,10 @@ def RegisterView(request):
 #             new_user.password = hash_code(password1)
 #             new_user.is_active = False
 #             new_user.save()
-#             send_register_email(email, "create")
-#             return redirect('users:login')
+#             status = send_register_email(email, "register")
+#               if status == 1:
+#                 return redirect('users:login')
+#               else:
+                  # return render(request, 'users/register.html', {'message': message})
 #
 #         return render(request, 'users/register.html', {'register_form': register_form, 'message': message})

@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'corsheaders',
     'users',
     'captcha',
+    'commbook',
+
 ]
 
 MIDDLEWARE = [
@@ -145,7 +146,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 MAILER_EMAIL_BACKEND = EMAIL_BACKEND
-EMAIL_HOST = "smtp.exmail.qq.com"  # 发送邮件的服务器地址
+EMAIL_HOST = "smtp.qq.com"  # 发送邮件的服务器地址
 EMAIL_PORT = 465  # 通常都是 25
 EMAIL_HOST_USER = ""  # 邮箱登录账号
 EMAIL_HOST_PASSWORD = ""  # 邮箱登录密码

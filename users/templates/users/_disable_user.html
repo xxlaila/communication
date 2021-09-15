@@ -18,18 +18,17 @@
                                 {% if msg %} <div class="alert alert-warning">{{ msg }}</div> {% endif %}
                                  {% csrf_token %}
                                 <div class="form-group">
-                                    {{ login_form.username.label }}{{ login_form.username }}
-                                    <span style="color: red" id="username_error">{{ login_form.username.error.0 }}</span>
+                                    {{ active_forms.email.label }}{{ active_forms.email }}
                                 </div>
                                 <div class="form-group">
-                                    {{ login_form.password.label }}{{ login_form.password }}
-                                    <span style="color: red" id="password_error">{{ login_form.password.error.0 }}</span>
+                                    {{ active_forms.captcha.errors }}
+                                    {{ active_forms.captcha.label }}
+                                    {{ active_forms.captcha }}
                                 </div>
-                                <button class="btn login-form__btn submit w-100">登 陆</button>
+                                <button class="btn login-form__btn submit w-100">立即激活</button>
                             </form>
                             <div class="box">
-                            <span style="float:left;">没有账号？ <a href="{% url 'users:register' %}" class="text-primary">立即注册</a></span>
-                            <span style="float:right;">忘记密码?  <a href="{% url 'users:forget-pwd' %}" class="text-primary">立即找回</a></span>
+                            <span style="float:left;">已有账号！ <a href="{% url 'users:login' %}" class="text-primary">返回登陆</a></span>
                                 </div>
                         </div>
                     </div>

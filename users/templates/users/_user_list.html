@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_head_css %}
+    <link href="{% static 'css/tables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">通讯录管理</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">用户列表</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered zero-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>账号</th>
+                                        <th>姓名</th>
+                                        <th>性别</th>
+                                        <th>邮箱</th>
+                                        <th>电话</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for user_list in user_lists %}
+                                    <tr>
+                                        <td>{{  forloop.counter }}</td>
+                                        <td>{{ user_list.username }}</td>
+                                        <td>{{ user_list.realname }}</td>
+                                        <td>{{ user_list.get_sex_display }}</td>
+                                        <td>{{ user_list.mobile }}</td>
+                                        <td>{{ user_list.email }}</td>
+                                        {% if user_list.is_active == True %}
+                                            <td>启用</td>
+                                        {% else %}
+                                            <td>停用</td>
+                                        {% endif %}
+                                        <td>
+                                            <form id="_form" method="post" action="{% url 'users:user-active' user_list.id %}">
+                                                {% csrf_token %}
+                                                {% if user_list.is_active == True %}
+                                                    <a onclick="document.getElementById('_form').submit();" class="btn btn-warning btn-xs alert-warning"><i class="fas fa-folder"></i>停用</a>
+                                                {% else %}
+                                                    <a onclick="document.getElementById('_form').submit();" class="btn btn-primary btn-xs alert-success"><i class="fas fa-folder"></i>启用</a>
+                                                {% endif %}
+                                                <a id="safe_delete" href="#" class="btn btn-danger btn-xs alert-warning" onclick="return confirm('确认要删除？')">
+                                                <i class="fas fa-trash"></i>删除</a>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>没有数据！</tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_foot_js %}
+    <script src="{% static 'js/tables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/tables/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/tables/datatable-basic.min.js' %}"></script>
+{% endblock %}

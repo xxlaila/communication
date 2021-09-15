@@ -9,4 +9,3 @@
 from .users import *
 from .emailverifyrecord import *
 from .groups import *
-from .contacts import *

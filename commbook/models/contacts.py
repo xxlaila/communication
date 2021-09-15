@@ -9,8 +9,8 @@
 from django.db import models
 import logging
 import uuid
-from .users import GENDER_CHOICES
-from .groups import *
+from users.models.users import GENDER_CHOICES
+from users.models.groups import *
 
 __all__ = ['Contacts']
 logger = logging.getLogger(__name__)

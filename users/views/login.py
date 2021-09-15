@@ -17,7 +17,9 @@ from ..forms.forgetpwd import *
 from utils.email_send import *
 
 class LoginView(View):
-
+    """
+    User login
+    """
     def get(self, request):
         login_form = LoginForm(request.POST)
         if request.session.get('is_login', None):
@@ -31,27 +33,48 @@ class LoginView(View):
             password = login_form.cleaned_data['password']
             try:
                 user = Users.objects.get(username=username)
-                if user.password == hash_code(password):
-                    request.session['is_login'] = True
-                    request.session['user_id'] = str(user.id)
-                    request.session['username'] = user.username
-                    return render(request, 'index.html')
+                if user.is_active:
+                    if user.password == hash_code(password):
+                        request.session['is_login'] = True
+                        request.session['user_id'] = str(user.id)
+                        request.session['username'] = user.username
+                        return render(request, 'index.html')
+                else:
+                    # del request.session['msg']
+                    active_forms = ForgetForm(request.POST)
+                    return render(request, 'users/_disable_user.html', {"active_forms": active_forms, "msg": "用户未激活"})
             except Exception as e:
-                message = "用户不存在！"
-                return render(request, 'users/login.html', {"message": message})
+                del request.session['msg']
+                return render(request, 'users/login.html', {"login_form": login_form, "msg": "用户不存在！"})
 
         login_form = LoginForm
+        del request.session['message']
         return render(request, 'users/login.html', {'login_form': login_form})
 
+class UserInfoView(View):
+    def get(self, request):
+        username = request.GET.get("username")
+        user = {}
+        resdata = {}
+        if (username is None):
+            username = request.user.username
+            user = Users.objects.filter(username=username)
 
 def logout(request):
+    """
+    logout
+    :param request:
+    :return:
+    """
     if not request.session.get('is_login', None):
         return redirect('users:login')
     request.session.flush()
     return redirect('users:login')
 
 class ForgetPwdView(View):
-
+    """
+    Retrieve password
+    """
     def get(self, request):
         forget_form = ForgetForm()
         return render(request, 'users/forgetpwd.html', {"forget_form": forget_form})
@@ -63,9 +86,48 @@ class ForgetPwdView(View):
             user_email = Users.objects.filter(email=email)
             if user_email:
                 send_register_email(email, "forget")
-                return redirect('/login/')
+                return redirect('users:login')
+                # return render(request, 'send_success.html')
             else:
-                message = "系统为找到该邮箱，请核对后输入！"
-            # return render(request, 'authapp/login.html', locals())
+                msg = "系统未找到该邮箱，请核对后输入！"
+                return render(request, 'users/forgetpwd.html', {"forget_form": forget_form, "msg": msg})
         forget_form = ForgetForm()
         return render(request, 'users/forgetpwd.html', {"forget_form": forget_form})
+
+class ResetView(View):
+    """
+    Jump to the reset password page
+    """
+    def get(self, request, reset_code):
+        pwd_reset = PwdResetForm()
+        record = EmailVerifyRecord.objects.filter(code=reset_code)[0]
+        if record:
+            email = record.email
+            return render(request, 'users/password_reset.html', {'email': email, 'pwd_reset': pwd_reset})
+        else:
+            return render(request, 'users/password_reset.html', {'msg': "没有获取到重置码"})
+
+class ModifyPwdView(View):
+    """
+    reset Password
+    """
+    def post(self, request):
+        pwd_reset = PwdResetForm(request.POST)
+        if pwd_reset.is_valid():
+            # 获取两次输入的密码
+            pwd1 = pwd_reset.cleaned_data['password1']
+            pwd2 = pwd_reset.cleaned_data['password2']
+            # pwd1 = request.POST.get('password1', '')
+            # 这里还要取到对应邮箱，从前端hidden属性标签下的email值获取
+            email = pwd_reset.cleaned_data['email']
+            # email = request.POST.get('email', '')
+            if pwd1 != pwd2:
+                return render(request, 'users/password_reset.html', {'pwd_reset': pwd_reset, 'email': email, 'msg': '密码不一致!'})
+            else:
+                # 修改密码
+                user = Users.objects.get(email=email)
+                user.password = hash_code(pwd2)
+                user.save()
+                return redirect(request, 'login.html')
+        else:
+            return render(request, 'users/password_reset.html', {'pwd_reset': pwd_reset})

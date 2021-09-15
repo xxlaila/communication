@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView, name='index'),
     path('users/', include('users.urls.api_urls', namespace='api-users')),
+    path('commbook/', include('commbook.urls.api_urls', namespace='api-commbook')),
     path('captcha', include('captcha.urls')),
 ]
 
