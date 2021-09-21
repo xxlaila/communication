@@ -5,13 +5,12 @@
 @Author  : xxlaila
 @Software: PyCharm
 """
-
 from django.views.generic import TemplateView
 from ..models.contacts import *
 
 class ContactsListView(TemplateView):
     """
-    user list
+    contacts list
     """
     template_name = 'commbook/_contacts_list.html'
 
@@ -21,3 +20,4 @@ class ContactsListView(TemplateView):
         context['contacts_lists'] = contacts_lists
 
         return context
+

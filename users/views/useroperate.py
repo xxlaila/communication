@@ -25,6 +25,16 @@ class UsersActiveView(View):
         user.save()
         return redirect('users:user-list')
 
+class UsersDeleteView(View):
+
+    def get(self, request, pk=None):
+        if request.session['username'] == 'admin':
+            user = Users.objects.filter(id=str(pk).replace("-", "")).first()
+            user.delete()
+            return redirect('users:user-list')
+        return redirect('users:user-list')
+
+
 class AciveUserView(View):
     """
     User status enables email connection sending

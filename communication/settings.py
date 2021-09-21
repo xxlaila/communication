@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'django_filters',
     'users',
     'captcha',
     'commbook',
@@ -148,7 +150,7 @@ EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 MAILER_EMAIL_BACKEND = EMAIL_BACKEND
 EMAIL_HOST = "smtp.qq.com"  # 发送邮件的服务器地址
 EMAIL_PORT = 465  # 通常都是 25
-EMAIL_HOST_USER = ""  # 邮箱登录账号
-EMAIL_HOST_PASSWORD = ""  # 邮箱登录密码
+EMAIL_HOST_USER = "111@qq.com"  # 邮箱登录账号
+EMAIL_HOST_PASSWORD = "111"  # 邮箱登录密码
 EMAIL_USE_TLS = True  # 这个参数默认设置为 False 即可
 EMAIL_FROM = EMAIL_HOST_USER

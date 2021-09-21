@@ -26,6 +26,7 @@ urlpatterns = [
 
     path('user-list/', UserTempldate.as_view(), name='user-list'),
     path('group-list/', GroupListView.as_view(), name='group-list'),
+    path('user-delete/<uuid:pk>/delete/', UsersDeleteView.as_view(), name='user-delete'),
 
     path('user-active/<uuid:pk>/', UsersActiveView.as_view(), name='user-active'),
 ]

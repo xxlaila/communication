@@ -55,8 +55,8 @@
                                                 {% else %}
                                                     <a onclick="document.getElementById('_form').submit();" class="btn btn-primary btn-xs alert-success"><i class="fas fa-folder"></i>启用</a>
                                                 {% endif %}
-                                                <a id="safe_delete" href="#" class="btn btn-danger btn-xs alert-warning" onclick="return confirm('确认要删除？')">
-                                                <i class="fas fa-trash"></i>删除</a>
+                                                    <a href="{% url 'users:user-delete' user_list.id %}" class="btn btn-danger btn-xs alert-warning" onclick="document.getElementById('_form').submit();return confirm('确认要删除？{{ user_list.username }}')">
+                                                    <i class="fas fa-trash"></i>删除</a>
                                             </form>
 
                                         </td>

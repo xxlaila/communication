@@ -5,11 +5,13 @@
 @Author  : xxlaila
 @Software: PyCharm
 """
-from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView
 from ..models.users import *
 from ..models.groups import *
+from django.shortcuts import (
+    render, redirect
+)
 
 class UserTempldate(TemplateView):
     """
@@ -23,6 +25,7 @@ class UserTempldate(TemplateView):
         context['user_lists'] = user_lists
 
         return context
+
 
 class GroupListView(TemplateView):
     """

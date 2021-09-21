@@ -9,8 +9,11 @@
 from django.db import models
 import logging
 import uuid
+from django.urls import reverse
+
 
 __all__ = ['Comgroup']
+
 logger = logging.getLogger(__name__)
 
 class Comgroup(models.Model):
@@ -26,3 +29,6 @@ class Comgroup(models.Model):
         ordering = ['name']
         verbose_name = '通讯录组'
         verbose_name_plural = '通讯录组'
+
+    def get_absolute_url(self):
+        return reverse('api-commbook:comgroup-list')
