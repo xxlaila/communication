@@ -6,14 +6,16 @@
 @Software: PyCharm
 """
 from django.views.generic import TemplateView
-# from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.views.generic import DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
+from ..models.tacstsgroup import *
 from django.utils import timezone
 from ..forms.comgroup import *
+from ..forms.contacts import *
 from django.shortcuts import (
     render, redirect
 )
+from django.http import JsonResponse
 
 class ComgroupListView(TemplateView):
     """
@@ -57,6 +59,8 @@ class ComgroupDeleteView(DeleteView):
     def get(self, request, *args, **kwargs):
         adv_group = Comgroup.objects.get(id=self.kwargs['pk'])
         adv_group.delete()
+        t_group = Tacstsgroup.objects.get(group_id=self.kwargs['pk'])
+        t_group.delete()
         return redirect('commbook:comgroup-list')
 
 class ComgroupDetailView(DetailView):
@@ -66,6 +70,25 @@ class ComgroupDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ComgroupDetailView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
+        context['t_users'] = Tacstsgroup.objects.filter(group_id=self.kwargs['pk'])
+        context['c_users'] = Contacts.objects.values_list('id', 'name')
         return context
+
+    def post(self, request, *args, **kwargs):
+        u_name = request.POST.get('usergroup')
+        u_id = Contacts.objects.filter(name=u_name).first()
+        try:
+            _name = Tacstsgroup.objects.get(user_id=u_id.id)
+            _name.user_id = u_id.id
+            _name.save()
+            return JsonResponse({"status": "success"})
+        except Tacstsgroup.DoesNotExist:
+            data = {"group_id": self.kwargs['pk'], "user_id": u_id.id}
+            try:
+                Tacstsgroup.objects.update_or_create(**data)
+                return JsonResponse({"status": "success"})
+            except Exception as e:
+                return JsonResponse({"status": "error"})
+
 
 

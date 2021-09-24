@@ -10,6 +10,7 @@ from django.conf.urls import url
 from django.urls import path,re_path
 from rest_framework.routers import DefaultRouter
 from ..views.contacts import *
+from ..views.tacstsgroup import *
 from ..views.comgroup import *
 from ..api import *
 
@@ -30,6 +31,7 @@ urlpatterns = [
     path('contact/<uuid:pk>/update/', ContactsUpdateView.as_view(), name='contact-update'),
     path('contact/<uuid:pk>/remove/', ContactsDeleteView.as_view(), name='contact-remove'),
     path('contact/<uuid:pk>/detail/', ContactsDetailView.as_view(), name='contact-detail'),
+    path('tacstsgroup/<uuid:pk>/remove/', TacstsgroupDeleteView.as_view(), name='tacstsgroup-remove'),
     ]
 
 urlpatterns += router.urls

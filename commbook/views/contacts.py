@@ -8,7 +8,6 @@
 @Software: PyCharm
 """
 from django.views.generic import TemplateView
-from django.views.generic.base import View
 from django.urls import reverse_lazy
 from ..models.contacts import *
 from ..models.comgroup import *
@@ -54,16 +53,24 @@ class ContactsUpdateView(UpdateView):
 
     def post(self, request, *args, **kwargs):
         adv_user = Contacts.objects.get(id=self.kwargs['pk'])
-        adv_user.name = request.POST.get('name')
-        adv_user.comment = request.POST.get('comment')
+        data = request.POST
+        result = {"name": data.get('name'), "sex": data.get('sex'), "mobile": data.get('mobile'),
+                  "birthday": data.get("birthday"), "appellative": data.get('appellative'), "qq": data.get('qq'),
+                  "email": data.get("email"), "units": data.get("units"), "address": data.get("address"),
+                  "comment": data.get("comment")}
+        adv_user.__dict__.update(**result)
+        # adv_user.name = request.POST.get('name')
+        # adv_user.comment = request.POST.get('sex')
         adv_user.save()
-        return redirect('api-commbook:contact-list:')
+        return redirect('api-commbook:contact-list')
 
 class ContactsDeleteView(DeleteView):
     def get(self, request, *args, **kwargs):
         adv_user = Contacts.objects.get(id=self.kwargs['pk'])
         adv_user.delete()
-        return redirect('api-commbook:contact-list:')
+        t_user = Tacstsgroup.objects.get(user_id=self.kwargs['pk'])
+        t_user.delete()
+        return redirect('api-commbook:contact-list')
 
 class ContactsDetailView(DetailView):
     model = Contacts

@@ -1,32 +1,137 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}任务列表{% endblock %}
-
 {% block custom_head_css %}
 {% endblock %}
 
-{% block breadcrumb %}
-<div class="content-header">
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'api-commbook:contact-list' %}">通讯录管理</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'api-commbook:contact-list' %}">联系人</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">索引总览</h1>
+        <div id="left" style="width:75%;float:left;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">详细信息</h5>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered zero-configuration">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>组名</th>
+                                            <th>用户</th>
+                                            <th>称呼</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for t_user in t_users %}
+                                        <tr>
+                                            <td>{{  forloop.counter }}</td>
+                                            <td>{{ object.name }}</td>
+                                            <td>{{ t_user.user_id }}</td>
+                                            <td>{{ t_user.user.appellative }}</td>
+                                            <td>
+{#                                                <a id="DeleteBtn" href="{% url 'api-commbook:tacstsgroup-remove' t_user.user_id %}" class="btn btn-danger btn-xs alert-warning" onclick="document.getElementById('_form').submit();return confirm('确认要删除？{{ t_user.user }}')">#}
+                                                <a id="DeleteBtn" class="btn btn-danger btn-xs alert-warning" onclick="myfunc('{{ t_user.user_id }}')">
+                                                <i class="fas fa-trash"></i>删除</a>
+                                            </td>
+                                        </tr>
+                                     {% empty %}
+                                        <tr>没有数据！</tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active">索引列表</li>
-                </ol>
+        </div>
+        <div id="right" style="width:24%;float:right;">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">关联组</h4>
+                    <form method="post" class="form-horizontal" action="#">
+                    {% csrf_token %}
+                    <div class="form-group row container">
+                        <select class="form-control-plaintext usergroup" name="usergroup" id="usergroup">
+                            <option selected>------</option>
+                            {% for c_user in c_users %}
+                                <option value="{{ c_user.1 }}">{{ c_user.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="usergroup-error" style="color:red"></span>
+                    </div>
+                         <div class="row container">
+                             <button type="button" class="btn btn-sm btn-primary" id="loginBtn">保存</button>
+                         </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
-
-{% block content %}
-
 {% endblock %}
 
 {% block custom_foot_js %}
+    <script>
+        var select = $('usergroup');
+        $("#loginBtn").on("click", function () {
+            var usergroup = $("select.usergroup option:selected").val();
+            var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+            $.ajax({
+                url: "{% url 'api-commbook:comgroup-detail' object.id %}",
+                type: 'post',
+                data: {
+                    usergroup: usergroup,
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                success: function (res) {
+                    if (res.status === "success") {
+                        var href = location.search.slice(6);
+                        if (href) {
+                            location.href = href
+                        } else {
+                            location.href = '{% url 'api-commbook:comgroup-detail' object.id %}'
+                        }
+                     }
+                    if (res.status === "error") {
+                        $(".usergroup-error").text("系统错误");
+                        location.href = '{% url 'api-commbook:comgroup-detail' object.id %}'
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        function myfunc(params) {
+            {#alert('接受参数: ' + params);#}
+            var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+            $.ajax({
+                url: '/commbook/tacstsgroup/'+ params + '/'+'remove'+'/',
+                type: "get",
+                 success: function (res) {
+                    if (res.status === "success") {
+                        var href = location.search.slice(6);
+                        if (href) {
+                            location.href = href
+                        } else {
+                            location.href = '{% url 'api-commbook:comgroup-detail' object.id %}'
+                        }
+                    }
+                    if (res.status === "error") {
+                        $(".usergroup-error").text("系统错误");
+                        location.href = '{% url 'api-commbook:comgroup-detail' object.id %}'
+                    }
+                 }
+            })
+        }
+    </script>
 {% endblock %}
