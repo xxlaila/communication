@@ -11,6 +11,7 @@ import logging
 import uuid
 from users.models.users import GENDER_CHOICES
 from users.models.groups import *
+from django.urls import reverse
 
 __all__ = ['Contacts']
 logger = logging.getLogger(__name__)
@@ -19,11 +20,10 @@ class Contacts(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     name = models.CharField(null=True, blank=True, max_length=128, verbose_name=('联系人'))
     sex = models.CharField(max_length=8, choices=GENDER_CHOICES, default='男', verbose_name=('性别'))
-    mobile = models.IntegerField(default=None, blank=True, null=True, verbose_name=('电话'))
-    gourp = models.ForeignKey(Groups, null=True, related_name='contacts_groups', on_delete=models.SET_NULL)
+    mobile = models.BigIntegerField(default=None, blank=True, null=True, verbose_name=('电话'))
     birthday = models.DateField(blank=True, null=True)
     appellative = models.CharField(null=True, blank=True, max_length=16, verbose_name=('称呼'))
-    qq = models.IntegerField(null=True, verbose_name=('QQ'))
+    qq = models.BigIntegerField(null=True, verbose_name=('QQ'))
     email = models.EmailField(unique=True, verbose_name=('邮箱'))
     units = models.CharField(null=True, blank=True, max_length=512, verbose_name=('单位'))
     address = models.CharField(null=True, blank=True, max_length=512, verbose_name=('家庭住址'))
@@ -35,7 +35,10 @@ class Contacts(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-date_created']
         verbose_name = '联系人'
         verbose_name_plural = '联系人'
+
+    def get_absolute_url(self):
+        return reverse('api-commbook:contact-list')
 

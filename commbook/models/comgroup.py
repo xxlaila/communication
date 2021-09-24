@@ -11,7 +11,6 @@ import logging
 import uuid
 from django.urls import reverse
 
-
 __all__ = ['Comgroup']
 
 logger = logging.getLogger(__name__)
@@ -26,7 +25,7 @@ class Comgroup(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-date_created']
         verbose_name = '通讯录组'
         verbose_name_plural = '通讯录组'
 

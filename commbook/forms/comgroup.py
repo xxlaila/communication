@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 
 class ComgroupForm(ModelForm):
     """
-    User login form
+    Comgroup form
     """
 
     class Meta:

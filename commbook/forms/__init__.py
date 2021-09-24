@@ -6,3 +6,4 @@
 @Software: PyCharm
 """
 from .comgroup import *
+from .contacts import *

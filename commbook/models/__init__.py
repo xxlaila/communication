@@ -7,3 +7,4 @@
 """
 from .contacts import *
 from .comgroup import *
+from .tacstsgroup import *

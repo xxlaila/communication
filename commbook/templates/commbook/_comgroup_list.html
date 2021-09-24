@@ -18,7 +18,7 @@
         <div id="left" style="width:3%;float:left;">
             <a class="btn btn-primary btn-square btn-sm" href="{% url 'commbook:comgroup-add' %}"><i class="fa fa-plus icon-3x"></i></a>
         </div>
-        <div id="right" style="width:97%;float:left;">
+        <div id="right" style="width:96%;float:right;">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
@@ -42,12 +42,10 @@
                                             <td>{{ group_list.comment }}</td>
                                             <td>{{ group_list.date_created }}</td>
                                             <td>
-{#                                                <form action="" method="post">#}
-                                                    <a href="{% url 'api-commbook:comgroup-edit' group_list.id %}" class="btn btn-primary btn-xs alert-success"><i class="fas fa-folder"></i>编辑</a>
-                                                    <a href="#" class="btn btn-primary btn-xs alert-success"><i class="fas fa-gavel"></i>详情</a>
-                                                    <a href="{% url 'api-commbook:comgroup-remove' group_list.id %}" class="btn btn-danger btn-xs alert-warning" onclick="document.getElementById('_form').submit();return confirm('确认要删除？{{ group_list.name }}')">
-                                                    <i class="fas fa-trash"></i>删除</a>
-{#                                                </form>#}
+                                                <a href="{% url 'api-commbook:comgroup-edit' group_list.id %}" class="btn btn-primary btn-xs alert-success"><i class="fas fa-folder"></i>编辑</a>
+                                                <a href="{% url 'api-commbook:comgroup-detail' group_list.id %}" class="btn btn-primary btn-xs alert-info"><i class="fas fa-gavel"></i>详情</a>
+                                                <a href="{% url 'api-commbook:comgroup-remove' group_list.id %}" class="btn btn-danger btn-xs alert-warning" onclick="document.getElementById('_form').submit();return confirm('确认要删除？{{ group_list.name }}')">
+                                                <i class="fas fa-trash"></i>删除</a>
                                             </td>
                                         </tr>
                                     {% empty %}

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}任务列表{% endblock %}
+
+{% block custom_head_css %}
+    <link rel="stylesheet" href="{% static 'css/built/three-columns.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'api-commbook:contact-list' %}">通讯录管理</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'api-commbook:contact-list' %}">联系人</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div id="left" style="width:75%;float:left;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">详细信息</h5>
+
+                             <div class="outer">
+                                <div class="box">
+                                    <p><span>姓名 </span>: {{ object.name }}</p>
+                                </div>
+                                 <div class="box">
+                                   <p><span>性别 </span>: {{ object.get_sex_display }}</p>
+                                 </div>
+                                 <div class="box">
+                                   <p><span>电话 </span>: {{ object.mobile }}</p>
+                                 </div>
+                                 <div class="box">
+                                     <p><span>组 </span>: {% for group in groups %}{{ group.1 }}{% endfor %}</p>
+                                 </div>
+                                 <div class="box">
+                                   <p><span>生日 </span>: {{ object.birthday }}</p>
+                                 </div>
+                                 <div class="box">
+                                   <p><span>称呼 </span>: {{ object.appellative }}</p>
+                                 </div>
+                                 <div class="box">
+                                   <p><span>QQ </span>: {{ object.qq }}</p>
+                                 </div>
+                                 <div class="box">
+                                   <p><span>邮箱 </span>: {{ object.email }}</p>
+                                 </div>
+                                <div class="box">
+                                   <p><span>备注 </span>: {{ object.comment }}</p>
+                                 </div>
+                             <br>
+                                 <div class="box">
+                                   <p><span>单位 </span>: {{ object.units }}</p>
+                                 </div>
+                             <br>
+                                 <div class="box">
+                                   <p><span>家庭住址 </span>: {{ object.address }}</p>
+                                 </div>
+                             <br>
+                                 <div class="box">
+                                   <p><span>更新时间 </span>: {{ object.date_updated }}</p>
+                                 </div>
+                             <br>
+                                 <div class="box">
+                                   <p><span>创建时间 </span>: {{ object.date_created }}</p>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="right" style="width:24%;float:right;">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">关联组</h4>
+                    <form method="post" class="form-horizontal" action="#">
+                    {% csrf_token %}
+                    <div class="form-group row container">
+                        <select class="form-control-plaintext usergroup" name="usergroup" id="usergroup">
+                            <option selected>------</option>
+                            {% for group in new_groups %}
+                                <option value="{{ group.1 }}">{{ group.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="usergroup-error" style="color:red"></span>
+                    </div>
+                         <div class="row container">
+                             <button type="button" class="btn btn-sm btn-primary" id="loginBtn">保存</button>
+                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_foot_js %}
+    <script>
+        var select = $('usergroup');
+        $("#loginBtn").on("click", function () {
+            var usergroup = $("select.usergroup option:selected").val();
+            var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+            $.ajax({
+                url: "{% url 'api-commbook:contact-detail' object.id %}",
+                type: 'post',
+                data: {
+                    usergroup: usergroup,
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                success: function (res) {
+                    if (res.status === "success") {
+                        var href = location.search.slice(6);
+                        if (href) {
+                            location.href = href
+                        } else {
+                            location.href = '{% url 'api-commbook:contact-detail' object.id %}'
+                        }
+                     }
+                    if (res.status === "error") {
+                        $(".usergroup-error").text("系统错误");
+                        location.href = '{% url 'api-commbook:contact-detail' object.id %}'
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

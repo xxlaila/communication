@@ -5,10 +5,11 @@
 @Author  : xxlaila
 @Software: PyCharm
 """
-from django.http import JsonResponse
 from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView,UpdateView,DeleteView
+# from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.views.generic import DetailView,CreateView,UpdateView,DeleteView
 from django.urls import reverse_lazy
+from django.utils import timezone
 from ..forms.comgroup import *
 from django.shortcuts import (
     render, redirect
@@ -57,3 +58,14 @@ class ComgroupDeleteView(DeleteView):
         adv_group = Comgroup.objects.get(id=self.kwargs['pk'])
         adv_group.delete()
         return redirect('commbook:comgroup-list')
+
+class ComgroupDetailView(DetailView):
+    model = Comgroup
+    template_name = 'commbook/_comgroup_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ComgroupDetailView, self).get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
+
+

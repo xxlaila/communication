@@ -24,7 +24,12 @@ urlpatterns = [
     path('comgroup/add/', ComgroupAddView.as_view(), name='comgroup-add'),
     path('comgroup/<uuid:pk>/update/', ComgroupUpdateView.as_view(), name='comgroup-edit'),
     path('comgroup/<uuid:pk>/remove/', ComgroupDeleteView.as_view(), name='comgroup-remove'),
-    path('contact-list/', ContactsListView.as_view(), name='contact-list'),
+    path('comgroup/<uuid:pk>/detail/', ComgroupDetailView.as_view(), name='comgroup-detail'),
+    path('contact/list/', ContactsListView.as_view(), name='contact-list'),
+    path('contact/add/', ContactsAddView.as_view(), name='contact-add'),
+    path('contact/<uuid:pk>/update/', ContactsUpdateView.as_view(), name='contact-update'),
+    path('contact/<uuid:pk>/remove/', ContactsDeleteView.as_view(), name='contact-remove'),
+    path('contact/<uuid:pk>/detail/', ContactsDetailView.as_view(), name='contact-detail'),
     ]
 
 urlpatterns += router.urls
