@@ -33,7 +33,7 @@
                                    <p><span>电话 </span>: {{ object.mobile }}</p>
                                  </div>
                                  <div class="box">
-                                     <p><span>组 </span>: {% for group in groups %}{{ group.1 }}{% endfor %}</p>
+                                     <p><span>组 </span>: {% for group in groups %}<a style="color: blue" href="{% url 'api-commbook:comgroup-detail' group.group_id %}">{{ group.group }}</a>{% endfor %}</p>
                                  </div>
                                  <div class="box">
                                    <p><span>生日 </span>: {{ object.birthday }}</p>
@@ -80,10 +80,10 @@
                     {% csrf_token %}
                     <div class="form-group row container">
                         <select class="form-control-plaintext usergroup" name="usergroup" id="usergroup">
-                            <option selected>------</option>
-                            {% for group in new_groups %}
-                                <option value="{{ group.1 }}">{{ group.1 }}</option>
-                            {% endfor %}
+                                <option selected>------</option>
+                                {% for group in new_groups %}
+                                    <option value="{{ group.1 }}">{{ group.1 }}</option>
+                                {% endfor %}
                         </select>
                         <span class="usergroup-error" style="color:red"></span>
                     </div>

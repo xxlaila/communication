@@ -36,7 +36,7 @@
                                         <tr>
                                             <td>{{  forloop.counter }}</td>
                                             <td>{{ object.name }}</td>
-                                            <td>{{ t_user.user_id }}</td>
+                                            <td><a style="color: blue" href="{% url 'api-commbook:contact-detail' t_user.user_id %}">{{ t_user.user }}</a></td>
                                             <td>{{ t_user.user.appellative }}</td>
                                             <td>
 {#                                                <a id="DeleteBtn" href="{% url 'api-commbook:tacstsgroup-remove' t_user.user_id %}" class="btn btn-danger btn-xs alert-warning" onclick="document.getElementById('_form').submit();return confirm('确认要删除？{{ t_user.user }}')">#}

@@ -79,7 +79,8 @@ class ContactsDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            adv_id = Tacstsgroup.objects.filter(user_id=self.kwargs['pk']).values_list('id','group__name')
+            # adv_id = Tacstsgroup.objects.filter(user_id=self.kwargs['pk']).values_list('id', 'group__name')
+            adv_id = Tacstsgroup.objects.filter(user_id=self.kwargs['pk'])
             if adv_id:
                 context['groups'] = adv_id
         except Tacstsgroup.DoesNotExist:

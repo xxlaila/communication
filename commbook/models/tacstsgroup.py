@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class Tacstsgroup(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True)
-    group = models.ForeignKey(Comgroup, blank=True, null=True, on_delete=models.SET_NULL)
+    group = models.ForeignKey(Comgroup, related_name='tacs_group', blank=True, null=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(Contacts, related_name='tacs_user', blank=True, null=True, on_delete=models.SET_NULL)
     date_updated = models.DateTimeField(auto_now=True, null=True, verbose_name=('更新时间'))
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name=('创建时间'))
