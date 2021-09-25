@@ -16,6 +16,7 @@ from django.shortcuts import (
     render, redirect
 )
 from django.http import JsonResponse
+import logging
 
 class ComgroupListView(TemplateView):
     """
@@ -88,6 +89,7 @@ class ComgroupDetailView(DetailView):
                 Tacstsgroup.objects.update_or_create(**data)
                 return JsonResponse({"status": "success"})
             except Exception as e:
+                # logger.error(e)
                 return JsonResponse({"status": "error"})
 
 

@@ -34,6 +34,6 @@ class ContactsForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ContactsForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
-            field.widget.attrs = {'class': 'form-control'}
+            field.widget.attrs = {'class': 'col-md-8 form-group form-control'}
             field.error_messages = {"required": "不能为空"}
 

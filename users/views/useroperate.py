@@ -40,11 +40,20 @@ class AciveUserView(View):
     User status enables email connection sending
     """
     def get(self, request, active_code):
-        all_records = EmailVerifyRecord.objects.filter(code=active_code)
-        if all_records:
-            for record in all_records:
-                email = record.email
-                user = Users.objects.get(email=email)
-                user.is_active = True
-                user.save()
-            return redirect('users:login')
+        try:
+            all_records = EmailVerifyRecord.objects.filter(code=active_code)
+            if all_records.exists:
+                for record in all_records:
+                    if record.is_active == True:
+                        email = record.email
+                        user = Users.objects.get(email=email)
+                        user.is_active = True
+                        user.save()
+                        # 禁用验证码
+                        record.is_active = False
+                        record.save()
+                        return redirect('users:login')
+                    else:
+                        return render(request, 'users/_get_active_code.html')
+        except:
+            return render(request, 'users/_get_active_code.html')

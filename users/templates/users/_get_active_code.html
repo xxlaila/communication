@@ -1,0 +1,31 @@
+{% load static %}
+
+{% block custom_head_css %}
+    <link  rel="stylesheet" href="{% static 'css/base/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="login-form-bg h-100">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100">
+                <div class="col-xl-6">
+                    <div class="form-input-content">
+                        <div class="card login-form mb-0">
+                            <div class="card-body pt-5">
+                                <a class="text-center" href="{% url 'api-users:forget-pwd' %}"> <h4 style="color: blue">连接过期，请重新获取</h4></a>
+                                <form class="mt-5 mb-3 login-input" action="" method="post">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_foot_js %}
+     <script src="{% static 'js/base/common.min.js' %}"></script>
+    <script src="{% static 'js/base/custom.min.js' %}"></script>
+    <script src="{% static 'js/base/settings.js' %}"></script>
+{% endblock %}

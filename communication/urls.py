@@ -15,16 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from . import views
+from .views.error_view import *
+from .views.index import *
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.IndexView, name='index'),
+    path('', IndexView, name='index'),
     path('users/', include('users.urls.api_urls', namespace='api-users')),
     path('commbook/', include('commbook.urls.api_urls', namespace='api-commbook')),
     path('captcha', include('captcha.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler404 = 'communication.views.handler404'
+handler500 = 'communication.views.handler500'
+

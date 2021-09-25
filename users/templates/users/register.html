@@ -20,31 +20,31 @@
                                 {% csrf_token %}
                                 <div class="form-group">
                                     {{ register_form.username.label }}{{ register_form.username }}
-                                    <span style="color: red" id="username_error">{{ register_form.username.error.0 }}</span>
+                                    <span style="color: red" id="username_error">{{ register_form.username.errors }}</span>
                                 </div>
                                 <div class="form-group">
                                     {{ register_form.realname.label }}{{ register_form.realname }}
-                                    <span style="color: red">{{ register_form.realname.error.0 }}</span>
+                                    <span style="color: red">{{ register_form.realname.errors }}</span>
                                 </div>
                                 <div class="form-group">
                                     {{ register_form.sex.label }}{{ register_form.sex }}
-                                    <span style="color: red">{{ register_form.sex.error.0 }}</span>
+                                    <span style="color: red">{{ register_form.sex.errors }}</span>
                                 </div>
                                 <div class="form-group">
                                     {{ register_form.email.label }}{{ register_form.email }}
-                                    <span style="color: red">{{ register_form.email.error.0 }}</span>
+                                    <span style="color: red">{{ register_form.email.errors }}</span>
                                 </div>
                                 <div class="form-group">
                                     {{ register_form.mobile.label }}{{ register_form.mobile }}
-                                    <span style="color: red">{{ register_form.mobile.error.0 }}</span>
+                                    <span style="color: red">{{ register_form.mobile.errors }}</span>
                                 </div>
                                 <div class="form-group">
                                     {{ register_form.password1.label }}{{ register_form.password1 }}
-                                    <span style="color: red">{{ register_form.password1.error.0 }}</span>
+                                    <span style="color: red">{{ register_form.password1.errors }}</span>
                                 </div>
                                 <div class="form-group">
                                     {{ register_form.password2.label }}{{ register_form.password2 }}
-                                    <span style="color: red">{{ register_form.password2.error.0 }}</span>
+                                    <span style="color: red">{{ register_form.password2.errors }}</span>
                                 </div>
                                 <button type="submit" class="btn login-form__btn submit w-100">注 册</button>
                             </form>

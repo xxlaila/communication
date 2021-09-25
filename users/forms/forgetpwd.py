@@ -7,7 +7,7 @@
 """
 from django import forms
 from captcha.fields import CaptchaField
-
+from django.core.exceptions import ValidationError
 
 class ForgetForm(forms.Form):
     """
@@ -31,3 +31,14 @@ class PwdResetForm(forms.Form):
                                 error_messages={"required": "不能为空", "min_length": "密码最短8位",
                                                 "max_length": "密码最长20位", "invalid": "密码需要包含大写、小写和数字",})
 
+    def clean(self):
+        """
+        Determine whether the two passwords are the same
+        :return:
+        """
+        password_value = self.cleaned_data.get('password1')
+        re_password_value = self.cleaned_data.get('password2')
+        if password_value == re_password_value:
+            return self.cleaned_data
+        else:
+            self.add_error('password2', ValidationError('两次密码不一致'))

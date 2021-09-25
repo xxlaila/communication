@@ -33,12 +33,18 @@ def send_register_email(email, send_type="register"):
     :param send_type: 发送验证码类型，在EmailVerifyRecord模型中，"register" 代表注册, "forget" 代表找回密码
     :return:
     """
-    email_record = EmailVerifyRecord()
-    code = random_str(16)
-    email_record.code = code
-    email_record.email = email
-    email_record.send_type = send_type
-    email_record.save()
+    email_record = EmailVerifyRecord.objects.filter(email=email, is_active=True)
+    if email_record.exists:
+        email_record = EmailVerifyRecord()
+        code = random_str(16)
+        email_record.code = code
+        email_record.email = email
+        email_record.send_type = send_type
+        email_record.is_active = False
+        email_record.save()
+    else:
+        msg = "已经存在"
+        return msg
 
     # 定义邮件标题和内容
     email_title = "通讯录管理系统"
@@ -48,12 +54,12 @@ def send_register_email(email, send_type="register"):
     if send_type == "register":
         # 如果是发送注册邮件, 按照以下逻辑处理
         title = email_title + '新用户激活链接'
-        email_body = "请点击下面的链接来激活你的账号：http://127.0.0.1:8000/users/user-one-active/%s" % code
+        email_body = "请点击下面的链接来激活你的账号：http://127.0.0.1:9090/users/user-one-active/{0}".format(code)
         send_status = send_mail(title, email_body, EMAIL_FROM, [email])
         return send_status
     elif send_type == "forget":
         # 发送找回密码
         title = email_title + '密码重置连接'
-        email_body = "请点击下面链接来重置密码： http://127.0.0.1:8000/users/user-reset/%s" % code
+        email_body = "请点击下面链接来重置密码： http://127.0.0.1:9090/users/user-reset/%s" % code
         send_status = send_mail(title, email_body, EMAIL_FROM, [email])
         return send_status

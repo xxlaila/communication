@@ -19,11 +19,11 @@
                                  {% csrf_token %}
                                 <div class="form-group">
                                     {{ login_form.username.label }}{{ login_form.username }}
-                                    <span style="color: red" id="username_error">{{ login_form.username.error.0 }}</span>
+{#                                    {{ login_form.username.errors }}#}
                                 </div>
                                 <div class="form-group">
                                     {{ login_form.password.label }}{{ login_form.password }}
-                                    <span style="color: red" id="password_error">{{ login_form.password.error.0 }}</span>
+{#                                    {{ login_form.password.errors }}#}
                                 </div>
                                 <button class="btn login-form__btn submit w-100">登 陆</button>
                             </form>
