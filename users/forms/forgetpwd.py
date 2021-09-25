@@ -8,6 +8,7 @@
 from django import forms
 from captcha.fields import CaptchaField
 from django.core.exceptions import ValidationError
+from .register import password_validate
 
 class ForgetForm(forms.Form):
     """
@@ -20,12 +21,12 @@ class PwdResetForm(forms.Form):
     """
     Password reset form
     """
-    password1 = forms.CharField(label="密码", min_length=8, max_length=20,
+    password1 = forms.CharField(label="密码", validators=[password_validate, ], min_length=8, max_length=20,
                                 required=True, help_text='密码必须包含大写、小写以及数字',
                                 widget=forms.PasswordInput(render_value=True, attrs={'class': 'form-control'}),
                                 error_messages={"required": "不能为空", "min_length": "密码最短8位",
                                                 "max_length": "密码最长20位", "invalid": "密码需要包含大写、小写和数字",})
-    password2 = forms.CharField(label="确认密码", min_length=8, max_length=20,
+    password2 = forms.CharField(label="确认密码", validators=[password_validate, ], min_length=8, max_length=20,
                                 required=True, help_text='密码必须包含大写、小写以及数字',
                                 widget=forms.PasswordInput(render_value=True, attrs={'class': 'form-control'}),
                                 error_messages={"required": "不能为空", "min_length": "密码最短8位",
