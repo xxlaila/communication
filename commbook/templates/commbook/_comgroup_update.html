@@ -10,7 +10,7 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">通讯录管理</a></li>
-                <li class="breadcrumb-item active"><a href="{% url 'commbook:comgroup-list' %}">联系人组</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'commbook:comgroup-list' %}">修改联系人组</a></li>
             </ol>
         </div>
     </div>
@@ -22,8 +22,12 @@
                         <form class="form-horizontal" action="{{ request.get_full_path }}" method="post">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <input type="submit" class="btn btn-primary btn-sm" value="保存">
-                            <input type="button" class="btn btn-danger btn-sm" onclick="javascript:history.go(-1);" value="返回">
+                            <div style="width:50%;padding:0;margin:0;float:left;box-sizing:border-box;">
+                                <input type="submit" class="btn btn-primary btn-sm" value="保存">
+                            </div>
+                            <div style="width:50%;padding:0;margin:0;float:left;box-sizing:border-box;">
+                                <input type="button" class="btn btn-danger btn-sm" onclick="javascript:history.go(-1);" value="返回">
+                            </div>
                         </form>
                     </div>
                 </div>

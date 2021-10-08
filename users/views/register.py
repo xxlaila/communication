@@ -16,19 +16,6 @@ from django.shortcuts import (
 from utils.email_send import send_register_email
 from ..models.users import *
 
-# def RegisterView(request):
-#     if request.method == "POST":
-#         register_form = RegisterForm(request.POST)
-#         if register_form.is_valid():
-#             print("ok: %s" % register_form)
-#         else:
-#             errors = register_form.errors
-#
-#             return HttpResponse(json.dumps(errors))
-#     register_form = RegisterForm()
-#     return render(request, 'users/register.html', {'register_form': register_form, "error": register_form.errors})
-
-
 class RegisterView(View):
     def get(self, request, ):
         register_form = RegisterForm()

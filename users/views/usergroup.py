@@ -26,7 +26,6 @@ class UserTempldate(TemplateView):
 
         return context
 
-
 class GroupListView(TemplateView):
     """
     user group list

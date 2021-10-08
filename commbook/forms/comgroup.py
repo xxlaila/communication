@@ -35,7 +35,12 @@ class ComgroupForm(ModelForm):
         if self.cleaned_data.get("name"):
             value = Comgroup.objects.filter(name=self.cleaned_data.get("name"))
             if value:
-                raise ValidationError("%s组已存在，不能使用该名称" % value)
+                raise ValidationError("%s组已存在，不能使用该名称" % self.cleaned_data.get("name"))
             else:
                 return self.cleaned_data.get("name")
         raise ValidationError("组名不能为空")
+
+    def __init__(self, *args, **kwargs):
+        super(ComgroupForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs = {'class': 'col-md-8 form-group form-control'}

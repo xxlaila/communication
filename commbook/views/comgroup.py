@@ -60,8 +60,10 @@ class ComgroupDeleteView(DeleteView):
     def get(self, request, *args, **kwargs):
         adv_group = Comgroup.objects.get(id=self.kwargs['pk'])
         adv_group.delete()
-        t_group = Tacstsgroup.objects.get(group_id=self.kwargs['pk'])
-        t_group.delete()
+        t_group = Tacstsgroup.objects.filter(group_id=self.kwargs['pk']).values("group_id")
+        if t_group:
+            t_group.delete()
+
         return redirect('commbook:comgroup-list')
 
 class ComgroupDetailView(DetailView):

@@ -5,7 +5,8 @@
 @Author  : xxlaila
 @Software: PyCharm
 """
-
+from django.contrib import auth
+from .backends import *
 from django.views import View
 from django.shortcuts import (
     render, redirect
@@ -46,18 +47,25 @@ class LoginView(View):
                     return render(request, 'users/_disable_user.html', {"active_forms": active_forms, "msg": "用户未激活"})
             except Exception as e:
                 return render(request, 'users/login.html', {"login_form": login_form, "msg": "用户不存在！"})
-
         login_form = LoginForm
-        return render(request, 'users/login.html', {'login_form': login_form, 'msg': "no"})
+        return render(request, 'users/login.html', {'login_form': login_form})
+
+def MyUserInfo(username):
+    user_datas = Users.objects.filter(username=username)
+    return user_datas
 
 class UserInfoView(View):
-    def get(self, request):
-        username = request.GET.get("username")
-        user = {}
-        resdata = {}
-        if (username is None):
-            username = request.user.username
-            user = Users.objects.filter(username=username)
+    def get(self, request, p1):
+        # username = request.user.is_authenticated():
+        print(p1)
+        if not request.user.is_authenticated:
+            print("ok")
+            user = Users.objects.filter(username=p1)
+            return render(request, 'users/_app_profile.html', {"datas": user})
+        else:
+            print("no")
+            return redirect('api-users:login')
+
 
 def logout(request):
     """
@@ -101,10 +109,10 @@ class ResetView(View):
         pwd_reset = PwdResetForm()
         try:
             record = EmailVerifyRecord.objects.filter(code=reset_code)[0]
-            if record.is_active == True:
+            if record.is_active == False:
                 if record:
                     email = record.email
-                    record.is_active = False
+                    record.is_active = True
                     record.save()
                     return render(request, 'users/password_reset.html', {'email': email, 'pwd_reset': pwd_reset})
             else:

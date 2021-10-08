@@ -19,3 +19,5 @@ $MYCMD -e "create database communication CHARACTER SET utf8 COLLATE utf8_general
 $MYCMD -e "CREATE USER 'communication'@'%' IDENTIFIED BY 'JSA238ksdfs35';"
 $MYCMD -e "grant all on communication.* to communication@'%' WITH GRANT OPTION;"
 $MYCMD -e "flush privileges;"
+
+

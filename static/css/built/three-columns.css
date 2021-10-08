@@ -16,7 +16,7 @@
 
 p {
     font-family: Arial,Verdana,Sans-seri;
-    width: 307px;
+    /*width: 100px;*/
     word-spacing:15px;
     overflow: hidden;
     text-overflow: ellipsis;
