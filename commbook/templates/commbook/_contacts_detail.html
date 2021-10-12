@@ -36,7 +36,7 @@
                                      <p><span>组 </span>: {% for group in groups %}<a style="color: blue" href="{% url 'api-commbook:comgroup-detail' group.group_id %}">{{ group.group }}</a>{% endfor %}</p>
                                  </div>
                                  <div class="box">
-                                   <p><span>生日 </span>: {{ object.birthday }}</p>
+                                   <p><span>生日 </span>: {{ object.birthday|date:"Y/m/d" }}</p>
                                  </div>
                                  <div class="box">
                                    <p><span>称呼 </span>: {{ object.appellative }}</p>
@@ -60,11 +60,11 @@
                                  </div>
                              <br>
                                  <div class="box">
-                                   <p><span>更新时间 </span>: {{ object.date_updated }}</p>
+                                   <p><span>更新时间 </span>: {{ object.date_updated|date:"Y-m-d H:i:s" }}</p>
                                  </div>
                              <br>
                                  <div class="box">
-                                   <p><span>创建时间 </span>: {{ object.date_created }}</p>
+                                   <p><span>创建时间 </span>: {{ object.date_created|date:"Y-m-d H:i:s" }}</p>
                                  </div>
                              </div>
                         </div>

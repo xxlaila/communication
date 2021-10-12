@@ -16,8 +16,9 @@ class UsersActiveView(View):
     """
     Operate on login account status
     """
-    def post(self, request, pk):
-        user = Users.objects.filter(id=str(pk).replace("-", "")).first()
+    def post(self, request, *args, **kwargs):
+        # user = Users.objects.filter(id=str(pk).replace("-", "")).first()
+        user = Users.objects.filter(id=self.kwargs['pk']).first()
         if user.is_active == False:
             user.is_active = True
         else:

@@ -6,7 +6,6 @@
 @Software: PyCharm
 """
 from django.contrib import auth
-from .backends import *
 from django.views import View
 from django.shortcuts import (
     render, redirect
@@ -57,15 +56,11 @@ def MyUserInfo(username):
 class UserInfoView(View):
     def get(self, request, p1):
         # username = request.user.is_authenticated():
-        print(p1)
         if not request.user.is_authenticated:
-            print("ok")
             user = Users.objects.filter(username=p1)
             return render(request, 'users/_app_profile.html', {"datas": user})
         else:
-            print("no")
             return redirect('api-users:login')
-
 
 def logout(request):
     """

@@ -40,7 +40,7 @@
                                             <td>{{  forloop.counter }}</td>
                                             <td>{{ group_list.name }}</td>
                                             <td>{{ group_list.comment }}</td>
-                                            <td>{{ group_list.date_created }}</td>
+                                            <td>{{ group_list.date_created|date:"Y-m-d H:i:s" }}</td>
                                             <td>
                                                 <a href="{% url 'api-commbook:comgroup-edit' group_list.id %}" class="btn btn-primary btn-xs alert-success"><i class="fas fa-folder"></i>编辑</a>
                                                 <a href="{% url 'api-commbook:comgroup-detail' group_list.id %}" class="btn btn-primary btn-xs alert-info"><i class="fas fa-gavel"></i>详情</a>
