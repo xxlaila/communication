@@ -21,6 +21,7 @@ class LoginView(View):
     User login
     """
     def get(self, request):
+        request.session.flush()
         login_form = LoginForm(request.POST)
         if request.session.get('is_login', None):
             return redirect('/')

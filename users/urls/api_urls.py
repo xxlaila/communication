@@ -11,6 +11,7 @@ from ..views import login
 from ..views.register import *
 from ..views.usergroup import *
 from ..views.useroperate import *
+from ..views.lock import *
 
 app_name = "users"
 
@@ -29,4 +30,5 @@ urlpatterns = [
     path('user-delete/<uuid:pk>/delete/', UsersDeleteView.as_view(), name='user-delete'),
 
     path('user-active/<uuid:pk>/', UsersActiveView.as_view(), name='user-active'),
+    path('user-lock', LockView.as_view(), name='user-lock'),
 ]
