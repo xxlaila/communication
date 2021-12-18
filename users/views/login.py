@@ -56,10 +56,13 @@ def MyUserInfo(username):
 
 class UserInfoView(View):
     def get(self, request, p1):
-        # username = request.user.is_authenticated():
-        if not request.user.is_authenticated:
-            user = Users.objects.filter(username=p1)
-            return render(request, 'users/_app_profile.html', {"datas": user})
+        if request.session['username']:
+            # username = request.user.is_authenticated():
+            if not request.user.is_authenticated:
+                user = Users.objects.filter(username=p1)
+                return render(request, 'users/_app_profile.html', {"datas": user})
+            else:
+                return redirect('api-users:login')
         else:
             return redirect('api-users:login')
 

@@ -16,13 +16,13 @@ class UsersActiveView(View):
     """
     Operate on login account status
     """
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         # user = Users.objects.filter(id=str(pk).replace("-", "")).first()
-        user = Users.objects.filter(id=self.kwargs['pk']).first()
-        if user.is_active == False:
-            user.is_active = True
+        user = Users.objects.get(id=self.kwargs['pk'])
+        if user.is_active == 0:
+            user.is_active = 1
         else:
-            user.is_active = False
+            user.is_active = 0
         user.save()
         return redirect('users:user-list')
 

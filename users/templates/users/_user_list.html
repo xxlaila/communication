@@ -48,16 +48,14 @@
                                             <td>停用</td>
                                         {% endif %}
                                         <td>
-                                            <form id="_form" method="post" action="{% url 'users:user-active' user_list.id %}">
-                                                {% csrf_token %}
-                                                {% if user_list.is_active == True %}
-                                                    <a onclick="document.getElementById('_form').submit();" class="btn btn-warning btn-xs alert-warning"><i class="fas fa-folder"></i>停用</a>
-                                                {% else %}
-                                                    <a onclick="document.getElementById('_form').submit();" class="btn btn-primary btn-xs alert-success"><i class="fas fa-folder"></i>启用</a>
-                                                {% endif %}
-                                                    <a href="{% url 'users:user-delete' user_list.id %}" class="btn btn-danger btn-xs alert-warning" onclick="document.getElementById('_form').submit();return confirm('确认要删除？{{ user_list.username }}')">
-                                                    <i class="fas fa-trash"></i>删除</a>
-                                            </form>
+                                            {% csrf_token %}
+                                            {% if user_list.is_active == True %}
+                                                <a href="{% url 'users:user-active' user_list.id %}" class="btn btn-warning btn-xs alert-warning"><i class="fas fa-folder"></i>停用</a>
+                                            {% else %}
+                                                <a href="{% url 'users:user-active' user_list.id %}" class="btn btn-primary btn-xs alert-success"><i class="fas fa-folder"></i>启用</a>
+                                            {% endif %}
+                                                <a href="{% url 'users:user-delete' user_list.id %}" class="btn btn-danger btn-xs alert-warning" onclick="document.getElementById('_form').submit();return confirm('确认要删除？{{ user_list.username }}')">
+                                                <i class="fas fa-trash"></i>删除</a>
 
                                         </td>
                                     </tr>
