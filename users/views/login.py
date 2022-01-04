@@ -39,7 +39,7 @@ class LoginView(View):
                         request.session['is_login'] = True
                         request.session['user_id'] = str(user.id)
                         request.session['username'] = user.username
-                        return render(request, 'index.html')
+                        return redirect('/')
                     else:
                         return render(request, 'users/login.html', {"login_form": login_form, "msg": "密码不正确"})
                 else:
