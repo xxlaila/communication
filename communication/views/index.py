@@ -9,9 +9,11 @@
 from django.shortcuts import (
     render, redirect
 )
+from django import views
 
-def IndexView(request):
+class IndexView(views.View):
 
-    if not request.session.get('is_login', None):
-        return redirect('users:login')
-    return render(request, 'index.html')
+    def get(self, request, *args, **kwargs):
+        if not request.session.get('is_login', None):
+            return redirect('users:login')
+        return render(request, 'index.html')

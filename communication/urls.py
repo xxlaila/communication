@@ -22,7 +22,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView, name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('users/', include('users.urls.api_urls', namespace='api-users')),
     path('commbook/', include('commbook.urls.api_urls', namespace='api-commbook')),
     path('captcha', include('captcha.urls')),
